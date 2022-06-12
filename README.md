@@ -1,8 +1,12 @@
 # Data Stream Evolution Analysis using Multiresolution Wavelet Transform
 
 [![CICD](https://github.com/marcus-neo/deamwt/actions/workflows/master-workflow.yml/badge.svg)](https://github.com/marcus-neo/deamwt/actions/workflows/master-workflow.yml)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Linux](https://svgshare.com/i/Zhy.svg)](https://svgshare.com/i/Zhy.svg)
+[![macOS](https://svgshare.com/i/ZjP.svg)](https://svgshare.com/i/ZjP.svg)
+[![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
 
 ## deaMWT Abstract
 
