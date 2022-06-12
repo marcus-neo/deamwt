@@ -1,21 +1,21 @@
 name: Project CICD
 on:
   push:
-    branches: [ master ]
+    branches: [main]
   pull_request:
-    branches: [ master ]
+    branches: [main]
 jobs:
   lint-and-pytest:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
-    
+
     steps:
       - uses: actions/checkout@v2
       - name: Setup Python
         uses: actions/setup-python@v2
-        with: 
+        with:
           python-version: 3.7
           architecture: x64
       - name: Install Dependencies
@@ -30,4 +30,3 @@ jobs:
         run: |
           touch ./tests/__init__.py
           python -m pytest ./tests
-    
