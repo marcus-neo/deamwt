@@ -1,0 +1,12 @@
+**/__pycache__/*
+*.pyc
+**/*.pyc
+checkpoints/*
+datasets/mnist/*
+datasets/MNIST/*
+logs/*
+output_images/**
+saved_models/*
+temp_saved/*
+test_outputs/signal_generation/*
+test_outputs/vals/*
