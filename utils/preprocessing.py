@@ -33,20 +33,32 @@ def db1_multires_analysis(data: Union[np.ndarray, list], level: int):
     :param level: Decomposition level.
     :return: Decomposed data.
     """
-    coeffs = pywt.wavedec(data, "db1", level=level)
-    output = wrcoef(data, "a", coeffs, "db1", level)
-    for detail_level in range(1, level + 1):
-        output = np.c_[wrcoef(data, "d", coeffs, "db1", detail_level), output]
-    return output
+    
+    def single_variate_decomposition(single_variate_data):
+        """Perform decomposition on a single feature."""
+        coeffs = pywt.wavedec(single_variate_data, "db1", level=level)
+        output = wrcoef(single_variate_data, "a", coeffs, "db1", level)
+        for detail_level in range(1, level + 1):
+            output = np.c_[wrcoef(single_variate_data, "d", coeffs, "db1", detail_level), output]
+        return output
+
+    
+    # Check number of features
+    data = np.array(data)
+    if len(data.shape) == 1:
+        return single_variate_decomposition(data)
+    elif len(data.shape) == 2:
+        for ind in range(data.shape[1]):
+            output = single_variate_decomposition(data[:, ind].flatten())
+            if ind == 0:
+                output_array = output
+            else:
+                output_array = np.c_[output_array, output]
+        return output_array
 
 
 if __name__ == "__main__":
-    import warnings
-
-    warnings.filterwarnings("error")
-
-    try:
-        y = np.array(list(range(4)))
-        print(db1_multires_analysis(y, 2))
-    except UserWarning:
-        print("UserWarning")
+    data = np.random.randint(0, 10, size=100)
+    data2 = np.random.randint(0, 10, size=100)
+    data = np.c_[data, data2]
+    print(db1_multires_analysis(data, 2))
