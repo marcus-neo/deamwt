@@ -61,16 +61,23 @@ class GenerateCallback(pl.Callback):
                 # obtain the fake data for that step
                 step_size = self.num_steps // self.vis_steps
                 fakes_to_plot = fakes_per_step[step_size - 1 :: step_size, i]
-                sigs_to_plot = (
-                    torch.sum(fakes_to_plot, dim=3)
-                    .detach()
-                    .cpu()
-                    .numpy()
-                    .squeeze()
-                )
-                fig, axs = plt.subplots(sigs_to_plot.shape[0], 1)
-                for ind, axis in enumerate(axs):
-                    axis.plot(sigs_to_plot[ind])
+                # obtain the number of features
+                num_decom_features = fakes_to_plot.shape[3]
+                num_features = int(num_decom_features/(self.decom_level+1))
+                num_instances = fakes_to_plot.shape[0]
+                fig, axs = plt.subplots(num_instances, num_features)
+                for j in range(num_features):
+                    start = j*(1+self.decom_level)
+                    end = (j+1)*(1+self.decom_level) -1
+                    sigs_to_plot = (
+                        torch.sum(fakes_to_plot[:,:,:,start::end], dim=3)
+                        .detach()
+                        .cpu()
+                        .numpy()
+                        .squeeze()
+                    )
+                    for i in range(num_instances):
+                        axs[i, j].plot(sigs_to_plot[i, :])
                 trainer.logger.experiment.add_figure(
                     f"generation_{i}", fig, global_step=trainer.current_epoch
                 )
